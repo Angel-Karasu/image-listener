@@ -5,6 +5,10 @@ In progress...
 ## Usage
 
 ## How it works
+
+## To do
+
+- [ ] The project
   
 ## License
 
