@@ -1,17 +1,7 @@
-let img_upload_file;
-let img_upload_url;
+var img_upload_file;
+var img_upload_url;
 
-function _show_img(url) {
-    const img = new Image();
-    img.src = url;
-
-    img.onload = () => {
-        const canvas = document.querySelector('#img-uploaded');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0)
-    }
-}
+const _show_img = url => document.querySelector('#img-uploaded').src = url;
 
 function load_img_file() {
     const img_file = img_upload_file.files[0];
