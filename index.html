@@ -3,12 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://angel-karasu.github.io/karoace-theme/styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="text/javascript" src="./index.js"></script>
+    <noscript>JavaScript is required for this website. Please allow JavaScript and refresh the page.</noscript>
     <title>Image listener</title>
   </head>
   <body>
+    <img id="img-uploaded">
     <div>
-      <label for="image_uploads">Select image to upload</label>
-      <input type="file" id="image_uploads" accept="image/*">
+      <div>
+        <label for="img-upload-file">Drag an image or choose it here</label>
+        <input type="file" id="img-upload-file" accept="image/*">
+      </div>
+      <div>
+        <label for="img-upload-url">Paste image url</label>
+        <input type="text" id="img-upload-url" placeholder="Image url">
+      </div>
     </div>
   </body>
 </html>
