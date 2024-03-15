@@ -1,7 +1,13 @@
+import image_processing from "./img_processing.js";
+
 let img_upload_file;
 let img_upload_url;
 
-const show_img = url => document.querySelector('#img-uploaded').src = url;
+const show_img = url => {
+    document.querySelector('#img-uploaded').src = url;
+    document.querySelector('#img-uploaded').onload = () =>
+        image_processing(document.querySelector('#img-uploaded'));
+};
 
 function load_img_file() {
     const img_file = img_upload_file.files[0];
