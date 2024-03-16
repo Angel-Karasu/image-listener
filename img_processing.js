@@ -9,13 +9,12 @@ class RGBA {
     }
 }
 
-const imageData_to_RGBA_list = img_data => [...Array(img_data.length/4)].map((_, i) => new RGBA(...img_data.slice(i*4, (i+1)*4)));
+function imageData_to_RGBA_array(img_data){
+    return img_data.length % 4 == 0 ? [...Array(img_data.length/4)].map((_, i) => new RGBA(...img_data.slice(i*4, (i+1)*4))) : null;
+}
 
 export default function image_processing(img) {
     ctx.drawImage(img, 0, 0);
-
-    const img_data = ctx.getImageData(0, 0, img.width, img.height).data;
-    console.log(img_data);
-
-    imageData_to_RGBA_list(img_data);
+    
+    return imageData_to_RGBA_array(ctx.getImageData(0, 0, img.width, img.height).data);
 }
