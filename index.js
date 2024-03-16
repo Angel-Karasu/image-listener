@@ -1,37 +1,28 @@
 import image_processing from "./img_processing.js";
 
+let img_uploaded;
 let img_upload_file;
 let img_upload_url;
 
-const show_img = url => {
-    document.querySelector('#img-uploaded').src = url;
-    document.querySelector('#img-uploaded').onload = () =>
-        image_processing(document.querySelector('#img-uploaded'));
-};
+function load_img(img_upload) {
+    let img = img_upload.value;
+    if (img) {
+        if (img_upload.files) {
+            img = URL.createObjectURL(img_upload.files[0]);
+            img_upload_url.value = '';
+        } else img_upload_file.value = '';
 
-function load_img_file() {
-    const img_file = img_upload_file.files[0];
-    if (img_file) {
-        show_img(URL.createObjectURL(img_file));
-        document.querySelector('#img-upload-url').value = '';
-    }
-}
-
-function load_img_url() {
-    const img_url = img_upload_url.value;
-    if (img_url) {
-        show_img(img_url);
-        document.querySelector('#img-upload-file').value = '';
+        img_uploaded.src = img;
     }
 }
 
 window.onload = () => {
+    img_uploaded = document.querySelector('#img-uploaded');
     img_upload_file = document.querySelector('#img-upload-file');
     img_upload_url = document.querySelector('#img-upload-url');
-    
-    ['change', 'drop'].forEach(event => img_upload_file.addEventListener(event, load_img_file));
-    img_upload_url.addEventListener('change', load_img_url);
-    
-    load_img_file();
-    load_img_url();
+
+    [img_upload_file, img_upload_url].forEach(img_upload => {
+        img_upload.addEventListener('change', e => load_img(e.target));
+        load_img(img_upload);
+    });
 }
