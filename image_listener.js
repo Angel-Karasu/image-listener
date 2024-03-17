@@ -9,9 +9,9 @@ function image_listener(compressed_RGBA_array, time_pixel, rgb_frequencies, min_
 
     if (time_pixel <= 0) time_pixel = 0.2;
     [['red', 700], ['green', 600], ['blue', 450]].forEach(([color, frequency]) => {
-        if (rgb_frequencies[color] < 1) rgb_frequencies[color] = frequency;
+        if (rgb_frequencies[color] < 400 || 800 < rgb_frequencies[color]) rgb_frequencies[color] = frequency;
     });
-    if (min_sound_frequency < 1) min_sound_frequency = 20;
+    if (min_sound_frequency < 20 || 20000 < min_sound_frequency) min_sound_frequency = 20;
     if (volume <= 0) volume = 0.5;
     if (!['sawtooth', 'sine', 'square', 'triangle'].includes(type)) type = 'sine';
 
