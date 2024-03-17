@@ -1,54 +1,43 @@
-const canvas_ctx = document.createElement('canvas').getContext('2d');
+export {audio_ctx, image_listener}
+
+import {RGBA} from "./image_processing.js";
+
+let audio_ctx, gain, oscillator;
+
+const RGB_frequencies = new RGBA(700, 600, 450);
 
 const min_frequency = 20;
-const max_volume = 0.25;
-
-const time_to_reach_max_vol = 0.5;
-const max_vol_time = 0.5;
-const time_to_reach_vol_0 = 0.25;
+const max_volume = 1;
 
 const oscillator_type = 'sine';
 
-const pixel_interval_time = 0.5;
+const pixel_interval_time = 0.1;
 
-const RGB_frequencies = {
-    'red': 700,
-    'green': 600,
-    'blue': 450,
-}
-
-class RGBA {
-    constructor(red, green, blue, alpha) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.alpha = alpha;
-    }
-}
-
-function play_rgba(start_time, rgba) {
-    const audio_ctx = new AudioContext();
-    const gain = audio_ctx.createGain();
-    const oscillator = audio_ctx.createOscillator();
-
-    const end_time = start_time + time_to_reach_max_vol + max_vol_time + time_to_reach_vol_0;
-    
-    gain.gain.linearRampToValueAtTime(max_volume * rgba.alpha/255, start_time + time_to_reach_max_vol);
-    gain.gain.linearRampToValueAtTime(0, end_time);
+function compressed_RGBA_array_to_audio(compressed_RGBA_array) {
+    audio_ctx = new AudioContext();
+    gain = audio_ctx.createGain();
+    oscillator = audio_ctx.createOscillator();
     
     oscillator.type = oscillator_type;
-    oscillator.frequency.value = min_frequency + ['red', 'green', 'blue'].map(color => rgba[color]*RGB_frequencies[color]).reduce((acc, val) => acc += val, 0)/255;
+
+    compressed_RGBA_array.reduce((start_time, compressed_rgba) => {
+        gain.gain.setValueAtTime(max_volume * compressed_rgba.rgba.alpha/255, start_time);
+
+        oscillator.frequency.setValueAtTime(
+            min_frequency + ['red', 'green', 'blue'].map(
+                color => RGB_frequencies[color]*compressed_rgba.rgba[color]/255
+            ).reduce((acc, val) => acc += val, 0)/3,
+        start_time);
+
+        return start_time + compressed_rgba.number * pixel_interval_time;
+    }, 0);
         
     gain.connect(audio_ctx.destination);
     oscillator.connect(gain);
-
-    oscillator.start(start_time);
-    oscillator.stop(end_time);
 }
 
-export default function image_listener(img) {
-    canvas_ctx.drawImage(img, 0, 0);
-    const img_data = canvas_ctx.getImageData(0, 0, img.width, img.height).data;
-    
-    [...Array(img_data.length/4)].forEach((_, i) => play_rgba(i*pixel_interval_time, new RGBA(...img_data.slice(i*4, (i+1)*4))));
+function image_listener(compressed_RGBA_array) {
+    compressed_RGBA_array_to_audio(compressed_RGBA_array);
+
+    oscillator.start(0);
 }

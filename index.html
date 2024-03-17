@@ -13,18 +13,26 @@
     <title>Image listener</title>
   </head>
   <body>
-    <button id="listen-button" style="display: none;">Listen</button>
-    <img id="img-uploaded">
-    <div>
+    <main>
       <div>
-        <label for="img-upload-file">Choose image here</label>
-        <input type="file" id="img-upload-file" accept="image/*">
+        <button id="listen-button" disabled>Listen</button>
+        <button id="stop-button" disabled>Stop</button>
       </div>
-      <span>or</span>
+      <img id="img-uploaded">
       <div>
-        <label for="img-upload-url">Paste image url</label>
-        <input type="text" id="img-upload-url" placeholder="Image url">
+        <div>
+          <label for="img-upload-file">Choose image here</label>
+          <input type="file" id="img-upload-file" accept="image/*">
+        </div>
+        <span>or</span>
+        <div>
+          <label for="img-upload-url">Paste image url</label>
+          <input type="text" id="img-upload-url" placeholder="Image url">
+        </div>
       </div>
-    </div>
+    </main>
+    <footer>
+      <a href="https://github.com/Angel-Karasu/image-listener/tree/main">Github page</a>
+    </footer>
   </body>
 </html>
