@@ -28,35 +28,30 @@
           <input type="text" id="img-upload-url" placeholder="Paste image url">
         </div>
       </div>
-      <label>
-        <h2>Show more options</h2>
-        <input type="checkbox" id="options-checkbox">
-      </label>
+      <label><h2>Show more options <input type="checkbox" id="options-checkbox"></h2></label>
       <div id="options" style="display: none;">
         <label>
           Time per pixel: <span></span>s<br>
           <input type="range" id="time-pixel" value="0.2" min="0.01" max="2" step="0.01">
         </label>
-        <div id="light-frequencies">
-          <label>
-            Red light freqency<br>
-            <input type="number" id="red-light-frequency" class="light-frequency" value="700" min="400" max="800" placeholder="red light frequency (Hz)">
-            Hz
-          </label>
-          <label>
-            Green light freqency<br>
-            <input type="number" id="green-light-frequency" class="light-frequency" value="600" min="400" max="800" placeholder="green light frequency (Hz)">
-            Hz
-          </label>
-          <label>
-            Blue light freqency<br>
-            <input type="number" id="blue-light-frequency" class="light-frequency" value="450" min="400" max="800" placeholder="blue light frequency (Hz)">
-            Hz
-          </label>
-        </div>
         <label>
-          Minimum sound frequency<br>
-          <input type="number" id="min-sound-frequency" value="20" min="20" max="20000" placeholder="sound frequency (Hz)">
+          Red light freqency
+          <input type="number" id="red-light-frequency" class="frequency light-frequency" value="700" min="400" max="800" placeholder="700">
+          Hz
+        </label>
+        <label>
+          Green light freqency
+          <input type="number" id="green-light-frequency" class="frequency light-frequency" value="600" min="400" max="800" placeholder="600">
+          Hz
+        </label>
+        <label>
+          Blue light freqency
+          <input type="number" id="blue-light-frequency" class="frequency light-frequency" value="450" min="400" max="800" placeholder="450">
+          Hz
+        </label>
+        <label>
+          Minimum sound frequency
+          <input type="number" id="min-sound-frequency" class="frequency" value="20" min="20" max="20000" placeholder="20">
           Hz
         </label>
         <label>

@@ -12,7 +12,6 @@ See the `image_processing.js` and `image_listener.js` files or read [how it work
 
 ## To do
 
-- [ ] Add style
 - [ ] Complete how it works
   
 ## License
