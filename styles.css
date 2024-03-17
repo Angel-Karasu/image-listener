@@ -35,7 +35,7 @@ footer {
   padding: 10px;
 }
 
-#img-upload, #options, #light-frequencies {
+#options, #light-frequencies {
   display: flex;
   flex-direction: column;
   align-items: center;

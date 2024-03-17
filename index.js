@@ -10,13 +10,18 @@ let stop_timeout;
 
 const change_range_value = input => input.parentElement.querySelector('span').textContent = (+input.value).toFixed(2);
 
-const change_total_time = () => total_time.textContent = img_uploaded.naturalWidth * img_uploaded.naturalHeight * time_pixel.value;
+const format_seconds = seconds => new Date(seconds*1000).toISOString().substring(11, 22).split('00:').slice(-1)[0];
+
+const change_total_time = () => {
+    total_time.value = img_uploaded.naturalWidth * img_uploaded.naturalHeight * time_pixel.value;
+    total_time.textContent = format_seconds(total_time.value);
+};
 
 const show_more_options = () => options.style.display = options_checkbox.checked ? '' : 'none';
 
 function display_time() {
     if (audio_ctx && audio_ctx.state != 'closed') {
-        time.textContent = audio_ctx.currentTime.toFixed(2);
+        time.textContent = format_seconds(audio_ctx.currentTime);
         requestAnimationFrame(display_time);
     }
 }
@@ -34,7 +39,7 @@ function listen_img() {
         volume.value/100,
         +document.querySelector('#type').value,
     );
-    stop_timeout = setTimeout(stop_listening, total_time.textContent*1000);
+    stop_timeout = setTimeout(stop_listening, total_time.value*1000);
     display_time();
 }
 
@@ -43,7 +48,7 @@ function load_img() {
 }
 
 function stop_listening() {
-    if (!stop_button.disabled) audio_ctx.close();
+    if (audio_ctx && audio_ctx.state != 'closed') audio_ctx.close();
     if (stop_timeout) clearTimeout(stop_timeout);
     listen_button.disabled = false;
     stop_button.disabled = true;
