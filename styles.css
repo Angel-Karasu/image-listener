@@ -11,11 +11,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button, input[type=n
   -moz-appearance: textfield;
 }
 
+body { min-width: 350px; }
+
 header {
   height: 40px;
   min-width: 260px;
   margin: 10px 0;
-  border-bottom: solid 1px var(--black_alt);
+  border-bottom: 1px solid var(--black_alt);
   padding-bottom: 10px;
 }
 
@@ -29,39 +31,34 @@ main {
 footer {
   display: flex;
   justify-content: space-around;
-  border-top: solid 1px var(--black_alt);
+  border-top: 1px solid var(--black_alt);
   padding: 10px;
 }
 
 #img-upload, #options, #light-frequencies {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
 }
 
-#light-frequencies {
-  flex-direction: row;
-}
+#light-frequencies { flex-direction: row; }
 
-h2 {
-  color: var(--white_alt);
-}
+h2 { color: var(--white_alt); }
 
-#img-uploaded {
-  max-height: 200px;
-}
+#img-uploaded { max-height: 200px; }
 
-input {
+input, select {
+  width: 100%;
+  max-width: 350px;
   padding: 1px 5px;
   border-radius: 5px;
   text-align: left;
+  border: 1px solid var(--black_alt);
 }
 
-.frequency {
-  width: 40px;
-}
+#options-checkbox { width: auto; }
+
+.frequency { width: 40px; }
 
 button {
   padding: 5px;
@@ -70,9 +67,7 @@ button {
   color: var(--black_alt);
   font-weight: bold;
 }
-button:not(:disabled) {
-  cursor: pointer;
-}
+button:not(:disabled) { cursor: pointer; }
 
 #listen-button:not(:disabled) {
   border-color: var(--green);
