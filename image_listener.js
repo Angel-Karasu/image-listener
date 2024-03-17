@@ -3,7 +3,7 @@ export {audio_ctx, image_listener};
 let audio_ctx, gain, oscillator;
 
 function image_listener(compressed_RGBA_array, time_pixel, rgb_frequencies, min_sound_frequency, volume, type) {
-    audio_ctx = new AudioContext();
+    audio_ctx = new(window.AudioContext || window.webkitAudioContext)();
     gain = audio_ctx.createGain();
     oscillator = audio_ctx.createOscillator();
 
