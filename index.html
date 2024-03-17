@@ -17,66 +17,66 @@
     <header><h1>Image listener</h1></header>
     <main>
       <div>
+        <h2>Image upload</h2>
         <img id="img-uploaded">
-        <div>
+        <div id="img-upload">
           <label for="img-upload-file">
-            Choose image here
+            Choose image here<br>
             <input type="file" id="img-upload-file" accept="image/*">
           </label>
           <span>or</span>
-          <label for="img-upload-url">
-            Paste image url
-            <input type="text" id="img-upload-url" placeholder="Image url">
-          </label>
+          <input type="text" id="img-upload-url" placeholder="Paste image url">
         </div>
       </div>
       <label>
-        Show more options
+        <h2>Show more options</h2>
         <input type="checkbox" id="options-checkbox">
       </label>
       <div id="options" style="display: none;">
         <label>
-          Time per pixel: <span></span>s
+          Time per pixel: <span></span>s<br>
           <input type="range" id="time-pixel" value="0.2" min="0.01" max="2" step="0.01">
         </label>
-        <div>
+        <div id="light-frequencies">
           <label>
-            Red light freqency
+            Red light freqency<br>
             <input type="number" id="red-light-frequency" class="light-frequency" value="700" min="1" placeholder="sound frequency (Hz)">
             Hz
           </label>
           <label>
-            Green light freqency
+            Green light freqency<br>
             <input type="number" id="green-light-frequency" class="light-frequency" value="600" min="1" placeholder="sound frequency (Hz)">
             Hz
           </label>
           <label>
-            Blue light freqency
+            Blue light freqency<br>
             <input type="number" id="blue-light-frequency" class="light-frequency" value="450" min="1" placeholder="sound frequency (Hz)">
             Hz
           </label>
         </div>
         <label>
-          Minimum sound frequency
+          Minimum sound frequency<br>
           <input type="number" id="min-sound-frequency" value="20" min="1" placeholder="sound frequency (Hz)">
           Hz
         </label>
         <label>
-          Volume: <span></span>%
+          Volume: <span></span>%<br>
           <input type="range" id="volume" value="50" min="1" max="200" step="1">
         </label>
         <label>
-          Oscillator type :
+          Oscillator type :<br>
           <select id="type">
             <option value="sawtooth">Sawtooth</option>
-            <option value="sine" selected>Sine</option>
+            <option value="sine" selected>Sinusoidal</option>
             <option value="square">Square</option>
             <option value="triangle">Triangle</option>
           </select>
         </label>
       </div>
-      <button id="listen-button" disabled>Listen</button>
-      <button id="stop-button" disabled>Stop</button>
+      <div>
+        <button id="listen-button" disabled>Listen</button>
+        <button id="stop-button" disabled>Stop</button>
+      </div>
     </main>
     <footer><a href="https://github.com/Angel-Karasu/image-listener/tree/main">Github page</a></footer>
   </body>
