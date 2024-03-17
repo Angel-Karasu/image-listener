@@ -38,5 +38,5 @@ const img_data_to_RGBA_array = img_data => img_data.length % 4 ? null : [...Arra
 function image_processing(img) {
     canvas_ctx.drawImage(img, 0, 0);
 
-    return compress_RGBA_array(img_data_to_RGBA_array(canvas_ctx.getImageData(0, 0, img.width, img.height).data));
+    return compress_RGBA_array(img_data_to_RGBA_array(canvas_ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight).data));
 }

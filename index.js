@@ -3,11 +3,23 @@ import {image_processing, RGBA} from "./image_processing.js";
 
 let img_uploaded, img_upload_file, img_upload_url,
     options_checkbox, options, time_pixel, volume,
-    listen_button, stop_button;
+    listen_button, stop_button,
+    time, total_time;
 
-const change_range_value = input => input.parentElement.querySelector('span').textContent = Math.round(input.value*100)/100;
+let stop_timeout;
+
+const change_range_value = input => input.parentElement.querySelector('span').textContent = (+input.value).toFixed(2);
+
+const change_total_time = () => total_time.textContent = img_uploaded.naturalWidth * img_uploaded.naturalHeight * time_pixel.value;
 
 const show_more_options = () => options.style.display = options_checkbox.checked ? '' : 'none';
+
+function display_time() {
+    if (audio_ctx && audio_ctx.state != 'closed') {
+        time.textContent = audio_ctx.currentTime.toFixed(2);
+        requestAnimationFrame(display_time);
+    }
+}
 
 function listen_img() {
     const compressed_RGBA_array = image_processing(img_uploaded);
@@ -22,6 +34,8 @@ function listen_img() {
         volume.value/100,
         +document.querySelector('#type').value,
     );
+    stop_timeout = setTimeout(stop_listening, total_time.textContent*1000);
+    display_time();
 }
 
 function load_img(img_upload) {
@@ -44,6 +58,7 @@ function load_img(img_upload) {
 
 function stop_listening() {
     if (!stop_button.disabled) audio_ctx.close();
+    if (stop_timeout) clearTimeout(stop_timeout);
     listen_button.disabled = false;
     stop_button.disabled = true;
 }
@@ -61,9 +76,13 @@ window.onload = () => {
     listen_button = document.querySelector('#listen-button');
     stop_button = document.querySelector('#stop-button');
 
+    time = document.querySelector('#time');
+    total_time = document.querySelector('#total-time');
+
     img_uploaded.onload = () => {
         listen_button.disabled = false;
         stop_listening();
+        change_total_time();
     };
     
     [img_upload_file, img_upload_url].forEach(img_upload => {
@@ -74,6 +93,7 @@ window.onload = () => {
     options_checkbox.onchange = show_more_options;
     show_more_options();
 
+    time_pixel.onchange = change_total_time;
     [time_pixel, volume].forEach(input => {
         input.oninput = () => change_range_value(input);
         change_range_value(input);

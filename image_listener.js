@@ -15,7 +15,7 @@ function image_listener(compressed_RGBA_array, time_pixel, rgb_frequencies, min_
     if (volume <= 0) volume = 0.5;
     if (!['sawtooth', 'sine', 'square', 'triangle'].includes(type)) type = 'sine';
 
-    compressed_RGBA_array.reduce((start_time, compressed_rgba) => {
+    const time = compressed_RGBA_array.reduce((start_time, compressed_rgba) => {
         gain.gain.setValueAtTime(volume * compressed_rgba.rgba.alpha/255, start_time);
 
         oscillator.frequency.setValueAtTime(
@@ -33,4 +33,5 @@ function image_listener(compressed_RGBA_array, time_pixel, rgb_frequencies, min_
     oscillator.connect(gain);
 
     oscillator.start(0);
+    oscillator.stop(time);
 }
