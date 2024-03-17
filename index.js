@@ -1,7 +1,7 @@
 import {audio_ctx, image_listener} from "./image_listener.js";
 import {image_processing, RGBA} from "./image_processing.js";
 
-let img_uploaded, img_upload_file, img_upload_url,
+let img_uploaded, img_upload_file,
     options_checkbox, options, time_pixel, volume,
     listen_button, stop_button,
     time, total_time;
@@ -38,22 +38,8 @@ function listen_img() {
     display_time();
 }
 
-function load_img(img_upload) {
-    if (img_upload.value) {
-        if (img_upload.files) {
-            img_uploaded.src = URL.createObjectURL(img_upload.files[0]);
-            img_upload_url.value = '';
-        } else {
-            fetch(img_upload.value).then(resp => resp.blob()).then(blob => new Promise(res => {
-                const reader = new FileReader();
-                reader.onloadend = () => res(reader.result);
-                reader.readAsDataURL(blob);
-            })).then(img => {
-                img_uploaded.src = img;
-                img_upload_file.value = '';
-            });
-        };
-    }
+function load_img() {
+    if (img_upload_file.value) img_uploaded.src = URL.createObjectURL(img_upload_file.files[0]);
 }
 
 function stop_listening() {
@@ -66,7 +52,6 @@ function stop_listening() {
 window.onload = () => {
     img_uploaded = document.querySelector('#img-uploaded');
     img_upload_file = document.querySelector('#img-upload-file');
-    img_upload_url = document.querySelector('#img-upload-url');
     
     options_checkbox = document.querySelector('#options-checkbox');
     options = document.querySelector('#options');
@@ -86,10 +71,8 @@ window.onload = () => {
         change_total_time();
     };
     
-    [img_upload_file, img_upload_url].forEach(img_upload => {
-        img_upload.onchange = () => load_img(img_upload);
-        load_img(img_upload);
-    });
+    img_upload_file.onchange = load_img;
+    load_img();
 
     options_checkbox.onchange = show_more_options;
     show_more_options();
