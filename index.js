@@ -80,6 +80,7 @@ window.onload = () => {
     total_time = document.querySelector('#total-time');
 
     img_uploaded.onload = () => {
+        img_uploaded.style.display = '';
         listen_button.disabled = false;
         stop_listening();
         change_total_time();

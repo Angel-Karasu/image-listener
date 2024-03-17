@@ -18,17 +18,17 @@
     <main>
       <div>
         <h2>Image upload</h2>
-        <img id="img-uploaded">
+        <img id="img-uploaded" style="display: none;">
         <div id="img-upload">
           <label for="img-upload-file">
             Choose image here<br>
             <input type="file" id="img-upload-file" accept="image/*"><br>
             or paste image url
-            <input type="text" id="img-upload-url" placeholder="Paste image url">
+            <input type="text" id="img-upload-url" placeholder="image url">
           </label>
         </div>
       </div>
-      <label><h2>Show more options <input type="checkbox" id="options-checkbox"></h2></label>
+      <label id="more-options"><h3>Show more options <input type="checkbox" id="options-checkbox"></h3></label>
       <div id="options" style="display: none;">
         <label>
           Time per pixel: <span></span>s<br>
@@ -68,7 +68,7 @@
           </select>
         </label>
       </div>
-      <div>
+      <div id="buttons">
         <button id="listen-button" disabled>Listen</button>
         <button id="stop-button" disabled>Stop</button>
       </div>
