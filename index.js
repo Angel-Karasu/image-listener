@@ -2,10 +2,12 @@ import {audio_ctx, image_listener} from "./image_listener.js";
 import {image_processing, RGBA} from "./image_processing.js";
 
 let img_uploaded, img_upload_file, img_upload_url,
-    listen_button, stop_button,
-    time_pixel, volume;
+    options_checkbox, options, time_pixel, volume,
+    listen_button, stop_button;
 
 const change_range_value = input => input.parentElement.querySelector('span').textContent = Math.round(input.value*100)/100;
+
+const show_more_options = () => options.style.display = options_checkbox.checked ? '' : 'none';
 
 function listen_img() {
     const compressed_RGBA_array = image_processing(img_uploaded);
@@ -50,12 +52,14 @@ window.onload = () => {
     img_uploaded = document.querySelector('#img-uploaded');
     img_upload_file = document.querySelector('#img-upload-file');
     img_upload_url = document.querySelector('#img-upload-url');
+    
+    options_checkbox = document.querySelector('#options-checkbox');
+    options = document.querySelector('#options');
+    time_pixel = document.querySelector('#time-pixel');
+    volume = document.querySelector('#volume');
 
     listen_button = document.querySelector('#listen-button');
     stop_button = document.querySelector('#stop-button');
-
-    time_pixel = document.querySelector('#time-pixel');
-    volume = document.querySelector('#volume');
 
     img_uploaded.onload = () => {
         listen_button.disabled = false;
@@ -66,12 +70,15 @@ window.onload = () => {
         img_upload.onchange = () => load_img(img_upload);
         load_img(img_upload);
     });
-    
-    listen_button.onclick = listen_img;
-    stop_button.onclick = stop_listening;
+
+    options_checkbox.onchange = show_more_options;
+    show_more_options();
 
     [time_pixel, volume].forEach(input => {
         input.oninput = () => change_range_value(input);
         change_range_value(input);
     });
+    
+    listen_button.onclick = listen_img;
+    stop_button.onclick = stop_listening;
 }
