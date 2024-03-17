@@ -6,7 +6,7 @@ This is a simple project to listen an image.
 
 To use this image listener, simply go on the [image listener](https://angel-karasu.github.io/image-listener/) website and upload the image to listen.
 
-See the `image_listener.js` file or read [How it works](#how-it-works) section if you want to understand how the image listener works.
+See the `image_listener.js` file or read [how it works](#how-it-works) section if you want to understand how the image listener works.
 
 ## How it works
 
