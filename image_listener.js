@@ -3,9 +3,7 @@ export {audio_ctx, frequency_methods, image_listener};
 import {RGBA} from "./image_processing.js";
 
 class Frequency_Method {
-    constructor(name, min_rgb_frequency, base_rgb_frequencies, max_rgb_frequency, func) {
-        this.name = name;
-
+    constructor(min_rgb_frequency, base_rgb_frequencies, max_rgb_frequency, func) {
         this.min_rgb_frequency = min_rgb_frequency;
         this.base_rgb_frequencies = base_rgb_frequencies;
         this.max_rgb_frequency = max_rgb_frequency;
@@ -16,7 +14,7 @@ class Frequency_Method {
 
 function check_rgb_frequencies(freq_method, rgb_frequencies) {
     ['red', 'green', 'blue'].forEach(color => {
-        if (rgb_frequencies[color] < freq_method.min_rgb_frequency || (freq_method.max_rgb_frequency < rgb_frequencies[color] && freq_method.max_rgb_frequency))
+        if (rgb_frequencies[color] < freq_method.min_rgb_frequency || freq_method.max_rgb_frequency < rgb_frequencies[color])
             rgb_frequencies[color] = freq_method.base_rgb_frequencies[color];
     });
 }
@@ -25,13 +23,12 @@ let audio_ctx;
 
 const frequency_methods = {
     'sound': new Frequency_Method(
-        'RGB to sound frequency',
-        0,
+        20,
         new RGBA(293, 370, 440),
-        null,
+        20000,
         (compressed_RGBA_array, time_pixel, rgb_frequencies, min_sound_frequency, volume, type) => {
-            let gains = new RGBA(audio_ctx.createGain(), audio_ctx.createGain(), audio_ctx.createGain());
-            let oscillators = new RGBA(audio_ctx.createOscillator(), audio_ctx.createOscillator(), audio_ctx.createOscillator());
+            let gains = new RGBA(...[...Array(3)].map(() => audio_ctx.createGain()));
+            let oscillators = new RGBA(...[...Array(3)].map(() => audio_ctx.createOscillator()));
 
             const time = compressed_RGBA_array.reduce((start_time, compressed_rgba) => {
                 ['red', 'green', 'blue'].forEach(color => {
@@ -56,7 +53,6 @@ const frequency_methods = {
         },
     ),
     'light': new Frequency_Method(
-        'RGB to light frequency',
         400,
         new RGBA(700, 600, 450),
         800,

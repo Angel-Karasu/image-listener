@@ -89,10 +89,10 @@ window.onload = () => {
         input.oninput();
     });
 
-    Object.entries(frequency_methods).forEach(([key, value]) => {
+    Object.keys(frequency_methods).forEach((key) => {
         let option = document.createElement('option');
         option.value = key;
-        option.innerHTML = value.name;
+        option.innerHTML = `RGB to ${key} frequency`;
 
         frequency_method.appendChild(option);
     });
