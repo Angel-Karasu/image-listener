@@ -53,7 +53,7 @@ footer {
 
 h1, h2 { color: var(--white_alt); }
 
-#img-uploaded {
+#img-uploaded > img {
   max-height: 200px;
   margin-top: 10px;
 }

@@ -22,10 +22,10 @@ class Compressed_RGBA {
 
 const compress_RGBA_array = rgba_array => rgba_array.reduce(
     (compressed_rgba_array, rgba) => {
-        const last_compressed_rgba = compressed_rgba_array.slice(-1)[0];
+        const previous_compressed_rgba = compressed_rgba_array.slice(-1)[0];
 
-        if (rgba.equals(last_compressed_rgba.rgba)) last_compressed_rgba.number++;
-        else compressed_rgba_array.push({'rgba': rgba, 'number': 1});
+        if (rgba.equals(previous_compressed_rgba.rgba)) previous_compressed_rgba.number++;
+        else compressed_rgba_array.push(new Compressed_RGBA(rgba));
 
         return compressed_rgba_array;
     }, [new Compressed_RGBA(rgba_array[0], 0)]
