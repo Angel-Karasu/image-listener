@@ -14,16 +14,47 @@ class Frequency_Method {
     }
 };
 
-function check_rgb_frequencies(frequency_method, rgb_frequencies) {
+function check_rgb_frequencies(freq_method, rgb_frequencies) {
     ['red', 'green', 'blue'].forEach(color => {
-        if (rgb_frequencies[color] < frequency_method.min_rgb_frequency || frequency_method.max_rgb_frequency < rgb_frequencies[color])
-            rgb_frequencies[color] = frequency_method.base_rgb_frequencies[color];
+        if (rgb_frequencies[color] < freq_method.min_rgb_frequency || (freq_method.max_rgb_frequency < rgb_frequencies[color] && freq_method.max_rgb_frequency))
+            rgb_frequencies[color] = freq_method.base_rgb_frequencies[color];
     });
 }
 
 let audio_ctx;
 
 const frequency_methods = {
+    'sound': new Frequency_Method(
+        'RGB to sound frequency',
+        0,
+        new RGBA(293, 370, 440),
+        null,
+        (compressed_RGBA_array, time_pixel, rgb_frequencies, min_sound_frequency, volume, type) => {
+            let gains = new RGBA(audio_ctx.createGain(), audio_ctx.createGain(), audio_ctx.createGain());
+            let oscillators = new RGBA(audio_ctx.createOscillator(), audio_ctx.createOscillator(), audio_ctx.createOscillator());
+
+            const time = compressed_RGBA_array.reduce((start_time, compressed_rgba) => {
+                ['red', 'green', 'blue'].forEach(color => {
+                    gains[color].gain.setValueAtTime(volume * compressed_rgba.rgba.alpha/255 * compressed_rgba.rgba[color]/255, start_time);
+
+                    oscillators[color].frequency.setValueAtTime(min_sound_frequency + rgb_frequencies[color], start_time);
+                });
+
+                return start_time + compressed_rgba.number * time_pixel;
+            }, 0);
+
+            ['red', 'green', 'blue'].forEach(color => {
+                oscillators[color].type = type;
+                    
+                gains[color].connect(audio_ctx.destination);
+                oscillators[color].connect(gains[color]);
+    
+                oscillators[color].start(0);
+                oscillators[color].stop(time);
+            });
+            
+        },
+    ),
     'light': new Frequency_Method(
         'RGB to light frequency',
         400,
@@ -59,7 +90,7 @@ const frequency_methods = {
 function image_listener(frequency_method, compressed_RGBA_array, time_pixel, rgb_frequencies, min_sound_frequency, volume, type) {
     audio_ctx = new(window.AudioContext || window.webkitAudioContext)();
 
-    if (!Object.keys(frequency_methods).includes(frequency_method)) frequency_method = 'light';
+    if (!Object.keys(frequency_methods).includes(frequency_method)) frequency_method = 'sound';
 
     if (time_pixel <= 0) time_pixel = 0.2;
     check_rgb_frequencies(frequency_methods[frequency_method], rgb_frequencies);
