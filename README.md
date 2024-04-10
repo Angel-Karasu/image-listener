@@ -2,7 +2,7 @@
 
 This is a simple project to listen an image.
 
-## Usage
+## How to use
 
 To use this image listener, simply go on the [image listener](https://angel-karasu.github.io/image-listener/) website and upload the image to listen.
 
